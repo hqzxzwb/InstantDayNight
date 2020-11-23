@@ -1,0 +1,4 @@
+include ':instantdaynight-compiler'
+include ':instantdaynight'
+include ':app'
+rootProject.name = "InstantDayNight"
