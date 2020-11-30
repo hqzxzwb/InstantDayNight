@@ -1,11 +1,11 @@
 package instantdaynight.example
 
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
-import instantdaynight.activity.DayNightCompatActivity
 import kotlinx.android.synthetic.main.activity_main.*
 
-class MainActivity : DayNightCompatActivity() {
+class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
         super.onCreate(savedInstanceState)

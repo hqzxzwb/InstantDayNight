@@ -1,16 +1,10 @@
 package instantdaynight.helper
 
-import android.app.Activity
-import android.content.Context
-import android.content.ContextWrapper
+import android.content.res.Configuration
 import android.view.View
-import instantdaynight.activity.DayNightCompatActivity
 import instantdaynight.R
 
 class DayNightCompatHelper(private val view: View) {
-    private val dayNightActivity = view.context.findActivityOrNull() as? DayNightCompatActivity
-    private val dayNightListener = { view.refreshDrawableState() }
-
     inline fun onCreateDrawableState(extraSpace: Int, superFunction: (Int) -> IntArray): IntArray {
         val isNight = isNight
         val additionalExtraSpace = if (isNight) 1 else 0
@@ -21,29 +15,19 @@ class DayNightCompatHelper(private val view: View) {
         return superResult
     }
 
-    val isNight: Boolean
-        get() {
-            val activity = dayNightActivity
-            return activity != null && activity.isNightMode
+    var isNight: Boolean = nightModeFromConfiguration(view.resources.configuration)
+        private set(value) {
+            if (field == value) return
+            field = value
+            view.refreshDrawableState()
         }
 
-    fun onAttachedToWindow() {
-        dayNightActivity?.addNightModeListener(dayNightListener)
+    fun onConfigurationChanged(newConfig: Configuration) {
+        isNight = nightModeFromConfiguration(newConfig)
     }
 
-    fun onDetachedFromWindow() {
-        dayNightActivity?.removeNightModeListener(dayNightListener)
-    }
-
-    private fun Context.findActivityOrNull(): Activity? {
-        var c = this
-        while (c is ContextWrapper) {
-            if (c is Activity) {
-                return c
-            }
-            c = c.baseContext
-        }
-        return null
+    private fun nightModeFromConfiguration(configuration: Configuration): Boolean {
+        return configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK == Configuration.UI_MODE_NIGHT_YES
     }
 }
 

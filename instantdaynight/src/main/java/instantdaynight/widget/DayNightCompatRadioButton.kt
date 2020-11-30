@@ -1,6 +1,7 @@
 package instantdaynight.widget
 
 import android.content.Context
+import android.content.res.Configuration
 import android.util.AttributeSet
 import androidx.appcompat.widget.AppCompatRadioButton
 import instantdaynight.R
@@ -15,13 +16,8 @@ open class DayNightCompatRadioButton @JvmOverloads constructor(
         }
     }
 
-    override fun onAttachedToWindow() {
-        super.onAttachedToWindow()
-        dayNightCompatHelper.onAttachedToWindow()
-    }
-
-    override fun onDetachedFromWindow() {
-        super.onDetachedFromWindow()
-        dayNightCompatHelper.onDetachedFromWindow()
+    override fun onConfigurationChanged(newConfig: Configuration) {
+        super.onConfigurationChanged(newConfig)
+        dayNightCompatHelper.onConfigurationChanged(newConfig)
     }
 }
